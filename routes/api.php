@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use illuminate\Foundations\Http\FormRequest;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -13,6 +14,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', function (Request $request) {
         return response()->json(['user' => $request->user()]);
     });
+
+    Route::get('/pages', [PageController::class, 'index'])->middleware('privilege:pages.view');
+    Route::post('/pages', [PageController::class, 'store'])->middleware('privilege:pages.create');
 });
 
 Route::get('/test-page-view', function () {

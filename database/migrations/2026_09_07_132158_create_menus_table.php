@@ -16,10 +16,8 @@ return new class extends Migration
 
             $table->foreignId('parent_id')->nullable()->constrained('menus')->nullOnDelete();
             $table->string('title');
-            $table->unsignedInteger('order')->default(0);
+            $table->unsignedInteger('sort_order')->default(0);
             $table->boolean('is_active')->default(true);
-
-
             $table->timestamps();
         });
     }

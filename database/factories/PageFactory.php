@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Page;
+use App\Models\Menu;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +22,9 @@ class PageFactory extends Factory
         return [
             'menu_id' => Menu::factory(),
             'title' => $this->faker->sentence(4),
-            'body' => '<p>' . $this->faker->paragraphs(3, true) . '</p>',
-            'cover_image' => $this->faker->imageUrl(800, 600, 'nature', true),
-            'status' => $this->faker->randomElement(['draft', 'published', 'archived']),
+            'body' => $this->faker->paragraphs(3, true),
+            'cover_image' => null,
+            'status' => $this->faker->randomElement(['draft', 'published']),
             'publish_at' => null,
             'created_by' => User::factory(),
             'updated_by' => User::factory(),

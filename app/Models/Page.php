@@ -17,6 +17,8 @@ class Page extends Model
         'cover_image',
         'status',
         'publish_at',
+        'created_by',
+        'updated_by',
 
     ];
 
