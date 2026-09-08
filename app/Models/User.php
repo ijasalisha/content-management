@@ -36,9 +36,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function hasPrivilege(string $privilege): bool
+    {
+        
+        return $this->roles()->whereHas('privileges', function ($query) use ($privilege) {
+            $query->where('name', $privilege);
+        })->exists();
     }
 
     /**

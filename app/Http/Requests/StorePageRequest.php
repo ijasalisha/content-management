@@ -4,15 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-
-class LoginRequest extends FormRequest
+use Illuminate\Validation\Rule;
+class StorePageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->hasPrivilege('pages.create') ?? false;
     }
 
     /**
@@ -23,8 +23,12 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
+            'menu_id' => ['required','exists:menus,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string'],
+            'cover_image' => ['nullable', 'image', 'max:2048'],
+            'status' => ['required', Rule::in(['draft', 'published'])],
+            'publish_at' => ['nullable', 'date'],
         ];
     }
 }
