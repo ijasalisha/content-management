@@ -14,11 +14,12 @@ class Menu extends Model
     protected $fillable = [
          'parent_id',
          'title',
-         'order',
+         'sort_order',
          'is_active',
     ];
 
     protected $casts = [
+        'sort_order' => 'integer',
         'is_active' => 'boolean',
     ];
 

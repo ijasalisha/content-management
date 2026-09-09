@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use illuminate\Foundations\Http\FormRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\MenuController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -20,6 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/pages/{page}', [PageController::class, 'update'])->middleware('privilege:pages.update');
     Route::delete('/pages/{page}', [PageController::class, 'destroy'])->middleware('privilege:pages.delete');
     Route::post('/pages/{id}/restore', [PageController::class, 'restore'])->middleware('privilege:pages.delete');
+
+    Route::get('/menus', [MenuController::class, 'index'])->middleware('privilege:pages.view');
+    Route::post('/menus', [MenuController::class, 'store'])->middleware('privilege:pages.create');
+    Route::put('/menus/{menu}', [MenuController::class, 'update'])->middleware('privilege:pages.update');
+    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->middleware('privilege:pages.delete');
 });
 
 Route::get('/test-page-view', function () {
