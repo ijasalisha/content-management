@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/pages', [PageController::class, 'index'])->middleware('privilege:pages.view');
     Route::post('/pages', [PageController::class, 'store'])->middleware('privilege:pages.create');
+    Route::put('/pages/{page}', [PageController::class, 'update'])->middleware('privilege:pages.update');
 });
 
 Route::get('/test-page-view', function () {

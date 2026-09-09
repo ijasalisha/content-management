@@ -6,6 +6,7 @@ use App\Http\Resources\PageResource;
 use Illuminate\Http\Request;
 use Illuminate\http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\UpdatePageRequest;
 use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
@@ -50,6 +51,25 @@ class PageController extends Controller
         $page = Page::create($data);
 
         return new PageResource($page);
+    }
+
+    public function update(UpdatePageRequest $request, Page $page): PageResource
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('cover_image')) {
+            // Delete the old cover image if it exists
+            if ($page->cover_image) {
+                Storage::disk('public')->delete($page->cover_image);
+            }
+            $data['cover_image'] = $request->file('cover_image')->store('pages', 'public');
+        }
+
+        $data['updated_by'] = $request->user()->id;
+
+        $page->update($data);
+
+        return new PageResource($page->fresh());
     }
 
 }
