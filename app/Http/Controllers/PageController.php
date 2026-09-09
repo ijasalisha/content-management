@@ -72,4 +72,18 @@ class PageController extends Controller
         return new PageResource($page->fresh());
     }
 
+    public function destroy(Request $request, Page $page)
+    {
+        $page->delete();
+
+        return response()->json(['message' => 'Page deleted successfully.']);
+    }
+
+    public function restore(int $id):PageResource
+    {
+        $page = Page::withTrashed()->findOrFail($id);
+        $page->restore();
+
+        return new PageResource($page->fresh());
+    }
 }

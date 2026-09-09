@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pages', [PageController::class, 'index'])->middleware('privilege:pages.view');
     Route::post('/pages', [PageController::class, 'store'])->middleware('privilege:pages.create');
     Route::put('/pages/{page}', [PageController::class, 'update'])->middleware('privilege:pages.update');
+    Route::delete('/pages/{page}', [PageController::class, 'destroy'])->middleware('privilege:pages.delete');
+    Route::post('/pages/{id}/restore', [PageController::class, 'restore'])->middleware('privilege:pages.delete');
 });
 
 Route::get('/test-page-view', function () {
