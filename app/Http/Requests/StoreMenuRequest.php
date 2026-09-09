@@ -12,7 +12,7 @@ class StoreMenuRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->hasPrivilege('pages.update') ?? false;
+        return $this->user()?->hasPrivilege('menus.create') ?? false;
     }
 
     /**

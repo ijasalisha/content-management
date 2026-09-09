@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Models\Menu;
+use App\Http\Requests\ReorderMenuRequest;
 
 class MenuController extends Controller
 {
@@ -41,6 +42,20 @@ class MenuController extends Controller
 
         return response()->json([
             'message' => 'Menu deleted successfully'
+        ]);
+    }
+    public function reorder(ReorderMenuRequest $request)
+    {
+       
+        foreach ($request->validated()['items'] as $item) {
+            Menu::where('id', $item['id'])->update([
+                'parent_id' => $item['parent_id'] ?? null,
+                'sort_order' => $item['sort_order'],
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Menu reordered successfully'
         ]);
     }
 }

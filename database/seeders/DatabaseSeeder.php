@@ -39,6 +39,11 @@ class DatabaseSeeder extends Seeder
         'privileges.create',
         'privileges.update',
         'privileges.delete',
+
+        'menus.view',
+        'menus.create',
+        'menus.update',
+        'menus.delete',
        ];
 
        $privileges = collect($privilegeNames)->mapWithKeys(function ($name) {
@@ -64,7 +69,7 @@ class DatabaseSeeder extends Seeder
        //admin get all privileges
        $adminRole->privileges()->attach($privileges->values());
 
-       //Moderator get page
+       //Moderator get page privileges only
        $moderatorRole->privileges()->attach([
         $privileges['pages.view']->id,
         $privileges['pages.create']->id,

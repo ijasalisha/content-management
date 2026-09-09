@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMenuRequest extends FormRequest
+class ReorderMenuRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,18 +16,18 @@ class UpdateMenuRequest extends FormRequest
     }
 
     /**
-     * Get the validation
-     *  rules that apply to the request.
+     * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'parent_id' => ['nullable', 'exists:menus,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active' => ['nullable', 'boolean'],
+            'items' => ['required', 'array','min:1'],
+
+            'items.*.id' => ['required','integer', 'exists:menus,id'],
+            'items.*.sort_order' => ['required','integer', 'min:0'],
+            'items.*.parent_id' => ['nullable','integer', 'exists:menus,id'],
         ];
     }
 }

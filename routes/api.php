@@ -22,10 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/pages/{page}', [PageController::class, 'destroy'])->middleware('privilege:pages.delete');
     Route::post('/pages/{id}/restore', [PageController::class, 'restore'])->middleware('privilege:pages.delete');
 
-    Route::get('/menus', [MenuController::class, 'index'])->middleware('privilege:pages.view');
-    Route::post('/menus', [MenuController::class, 'store'])->middleware('privilege:pages.create');
-    Route::put('/menus/{menu}', [MenuController::class, 'update'])->middleware('privilege:pages.update');
-    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->middleware('privilege:pages.delete');
+    Route::get('/menus', [MenuController::class, 'index'])->middleware('privilege:menus.view');
+    Route::post('/menus', [MenuController::class, 'store'])->middleware('privilege:menus.create');
+    Route::put('/menus/{menu}', [MenuController::class, 'update'])->middleware('privilege:menus.update');
+    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->middleware('privilege:menus.delete');
+    Route::post('/menus/reorder', [MenuController::class, 'reorder'])->middleware('privilege:menus.update');
 });
 
 Route::get('/test-page-view', function () {
