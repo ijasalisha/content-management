@@ -58,4 +58,21 @@ class MenuController extends Controller
             'message' => 'Menu reordered successfully'
         ]);
     }
+    public function publicMenus()
+    {
+        $menus = Menu::with([
+            'children',
+            'pages' => function($query) {
+            $query->where('status', 'published')
+            ->where(function ($query) {
+                $query->whereNull('publish_at')
+                ->orWhere('publish_at', '<=', now());
+            })
+            ->latest();
+            }
+        ])
+        ->where('is_active', true)->whereNull('parent_id')->orderBy('sort_order')->get();
+
+        return response()->json(['data' => $menus]);
+    }
 }

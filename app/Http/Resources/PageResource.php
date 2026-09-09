@@ -17,6 +17,14 @@ class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'menu_id' => $this->menu_id,
+            'menu' => $this->whenLoaded('menu', function () {
+                return [
+                    'id' => $this->menu->id,
+                    'title' => $this->menu->title,
+                    'parent_id' => $this->menu->parent_id,
+                    'sort_order' => $this->menu->sort_order,
+                ];
+            }),
             'title' => $this->title,
             'body' => $this->body,
             'cover_image' => $this->cover_image ? asset('storage/' . $this->cover_image) : null,

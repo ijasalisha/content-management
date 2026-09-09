@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('/pages', [PageController::class, 'index'])->middleware('privilege:pages.view');
+    Route::get('/pages/{page}', [PageController::class, 'show'])->middleware('privilege:pages.view');
     Route::post('/pages', [PageController::class, 'store'])->middleware('privilege:pages.create');
     Route::put('/pages/{page}', [PageController::class, 'update'])->middleware('privilege:pages.update');
     Route::delete('/pages/{page}', [PageController::class, 'destroy'])->middleware('privilege:pages.delete');
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/menus/reorder', [MenuController::class, 'reorder'])->middleware('privilege:menus.update');
 });
 
+Route::get('/public/pages', [PageController::class, 'publicPages']);
+Route::get('/public/pages/{id}', [PageController::class, 'publicShow']);
+Route::get('/public/menus', [MenuController::class, 'publicMenus']);
 Route::get('/test-page-view', function () {
     return response()->json(['message' => 'You have access to view the test page.']);
 })->middleware(['auth:sanctum', 'privilege:pages.view']);

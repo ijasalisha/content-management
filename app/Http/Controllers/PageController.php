@@ -30,10 +30,16 @@ class PageController extends Controller
         $query->where('status', $request->status);
     }
 
-    $pages = $query->latest()->paginate($request->input('per_page', 10));
+    $pages = $query->with('menu')->latest()->paginate($request->input('per_page', 10));
 
     return PageResource::collection($pages);
 
+    }
+
+    public function show(Page $page): PageResource
+    {
+        $page->load('menu');
+        return new PageResource($page);
     }
 
 
@@ -85,5 +91,19 @@ class PageController extends Controller
         $page->restore();
 
         return new PageResource($page->fresh());
+    }
+
+    public function publicPages(){
+        $pages = Page::with('menu')->where('status', 'published')->where(function ($query) {
+            $query->whereNull('publish_at')->orWhere('publish_at', '<=', now());
+        })->latest()->paginate(10);
+        return PageResource::collection($pages);
+    }
+    public function publicShow(int $id): PageResource
+    {
+        $page = Page::with('menu')->where('status', 'published')->where(function ($query) {
+            $query->whereNull('publish_at')->orWhere('publish_at', '<=', now());
+        })->where('id', $id)->firstOrFail();
+        return new PageResource($page);
     }
 }
