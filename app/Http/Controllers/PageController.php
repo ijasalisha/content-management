@@ -8,9 +8,21 @@ use Illuminate\http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use Illuminate\Support\Facades\Storage;
+use OpenApi\Attributes as OA;
 
 class PageController extends Controller
 {
+    #[OA\Get(
+    path: '/api/public/pages',
+    summary: 'Get published pages',
+    tags: ['Public Pages'],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'Successful response'
+        )
+    ]
+)]
     public function index(Request $request): AnonymousResourceCollection
     {
         $query = Page::query();
@@ -30,7 +42,13 @@ class PageController extends Controller
         $query->where('status', $request->status);
     }
 
-    $pages = $query->with('menu')->latest()->paginate($request->input('per_page', 10));
+    $pages = $query->with([
+    'menu',
+    'creator',
+    'updater',
+])->latest()->paginate(
+    $request->integer('per_page', 10)
+);
 
     return PageResource::collection($pages);
 
@@ -38,7 +56,11 @@ class PageController extends Controller
 
     public function show(Page $page): PageResource
     {
-        $page->load('menu');
+        $page->load([
+    'menu',
+    'creator',
+    'updater',
+]);
         return new PageResource($page);
     }
 
@@ -101,7 +123,11 @@ class PageController extends Controller
     }
     public function publicShow(int $id): PageResource
     {
-        $page = Page::with('menu')->where('status', 'published')->where(function ($query) {
+        $page = Page::with([
+    'menu',
+    'creator',
+    'updater',
+])->where('status', 'published')->where(function ($query) {
             $query->whereNull('publish_at')->orWhere('publish_at', '<=', now());
         })->where('id', $id)->firstOrFail();
         return new PageResource($page);

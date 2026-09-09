@@ -30,8 +30,21 @@ class PageResource extends JsonResource
             'cover_image' => $this->cover_image ? asset('storage/' . $this->cover_image) : null,
             'status' => $this->status,
             'publish_at' => $this->publish_at,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
+            'created_by' => $this->whenLoaded('creator', function () {
+    return [
+        'id' => $this->creator->id,
+        'name' => $this->creator->name,
+        'email' => $this->creator->email,
+    ];
+}),
+
+'updated_by' => $this->whenLoaded('updater', function () {
+    return [
+        'id' => $this->updater->id,
+        'name' => $this->updater->name,
+        'email' => $this->updater->email,
+    ];
+}),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

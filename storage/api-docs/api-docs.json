@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Content Management API",
+        "description": "REST API for Content Management System",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/public/pages": {
+            "get": {
+                "tags": [
+                    "Public Pages"
+                ],
+                "summary": "Get published pages",
+                "operationId": "e1e2314dc094a4709b2c51b5e5c75e45",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Public Pages",
+            "description": "Public Pages"
+        }
+    ]
+}
