@@ -1,51 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-
 # Content Management System
 
-Laravel 12 Content Management System API with role-based privileges, dynamic menus, pages, Sanctum authentication and Swagger documentation.
+A small Content Management System built with Laravel 12 and React.
 
-## Requirements
+The project includes a Laravel REST API for users, roles, privileges, pages and dynamic menus, together with a React public frontend that consumes the API.
 
-- PHP 8.2+
-- Laravel 12
-- MySQL
-- Composer
+## Project Structure
 
-## Installation
+```text
+app/          Laravel application
+database/     Migrations, seeders and factories
+routes/       API routes
+tests/        Automated tests
+frontend/     React (Vite) public frontend
+```
+
+## 1. Backend setup (Laravel)
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ijasalisha/content-management.git
 cd content-management
 composer install
 cp .env.example .env
 php artisan key:generate
+php artisan storage:link
+```
+## 2. create a MySQL database named content_management
+```bash
+php artisan migrate --seed
+php artisan serve
+```
 
-## Default Credentials
+### Seeded login credentials
 
-### Admin
-Email: `admin@example.com`
-Password: `password`
+| Role      | Email                  | Password  |
+|-----------|-------------------------|-----------|
+| Admin     | admin@example.com       | password  |
+| Moderator | moderator@example.com   | password  |
 
-### Moderator
-Email: `moderator@example.com`
-Password: `password`
+Log in with `POST /api/login` to get a Sanctum bearer token, then send it as
+`Authorization: Bearer <token>` on every authenticated request.
+
+### API docs (Swagger)
+
+```bash
+php artisan l5-swagger:generate
+```
+Then open **http://localhost:8000/api/documentation**.
+
+### Automated tests
+
+```bash
+php artisan test
+# or: ./vendor/bin/pest
+```
+
+## Scheduled Publishing
+
+Pages can have a future `publish_at` date.
+
+The public API only displays pages where:
+
+- status is `published`
+- publish_at is null or has already been reached
+
+Therefore, a page scheduled for a future date is not visible on the public website until its publish time.
+
+
+## 2. Frontend setup (React)
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+
+The frontend runs by default at: http://localhost:5173
+```
+
+##The React frontend consumes the Laravel public APIs:
+GET /api/public/menus
+GET /api/public/pages
+GET /api/public/pages/{id}
