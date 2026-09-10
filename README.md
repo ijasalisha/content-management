@@ -39,3 +39,13 @@ cd content-management
 composer install
 cp .env.example .env
 php artisan key:generate
+
+## Default Credentials
+
+### Admin
+Email: `admin@example.com`
+Password: `password`
+
+### Moderator
+Email: `moderator@example.com`
+Password: `password`
