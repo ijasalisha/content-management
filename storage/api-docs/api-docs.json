@@ -6,6 +6,34 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List users",
+                "operationId": "307c8a7a0195c62e62f89295f6178855",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/menus": {
+            "get": {
+                "tags": [
+                    "Menus"
+                ],
+                "summary": "List menus",
+                "operationId": "1dc6b7b84ebea40905c68ce4f844da25",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/public/pages": {
             "get": {
                 "tags": [
@@ -19,12 +47,56 @@
                     }
                 }
             }
+        },
+        "/api/privilege": {
+            "get": {
+                "tags": [
+                    "Privilege"
+                ],
+                "summary": "List privileges",
+                "operationId": "e3b39a40cce0ed2fa17c2dd36864acca",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/role": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "List roles",
+                "operationId": "5382f1f8081ec0784c101b952835e6f7",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Menus",
+            "description": "Menus"
+        },
+        {
             "name": "Public Pages",
             "description": "Public Pages"
+        },
+        {
+            "name": "Privilege",
+            "description": "Privilege"
+        },
+        {
+            "name": "Role",
+            "description": "Role"
         }
     ]
 }

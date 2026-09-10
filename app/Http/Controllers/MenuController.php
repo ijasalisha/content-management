@@ -7,9 +7,23 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Models\Menu;
 use App\Http\Requests\ReorderMenuRequest;
+use OpenApi\Attributes as OA;
 
 class MenuController extends Controller
 {
+    
+
+#[OA\Get(
+    path: '/api/menus',
+    summary: 'List menus',
+    tags: ['Menus'],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'Success'
+        )
+    ]
+)]
     public function index()
     {
         $menus = Menu::with('children')->whereNull('parent_id')

@@ -6,9 +6,22 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use OpenApi\Attributes as OA;
 
 class AuthController extends Controller
 {
+
+#[OA\Get(
+    path: '/api/users',
+    summary: 'List users',
+    tags: ['Users'],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'Success'
+        )
+    ]
+)]
     public function login(LoginRequest $request): JsonResponse
     {
         $user = User::where('email', $request->email)->first();

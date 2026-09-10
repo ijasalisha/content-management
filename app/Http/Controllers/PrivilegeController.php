@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Privilege;
 use App\Http\Requests\StorePrivilegeRequest;
+use OpenApi\Attributes as OA;
 
 class PrivilegeController extends Controller
 {
+    #[OA\Get(
+    path: '/api/privilege',
+    summary: 'List privileges',
+    tags: ['Privilege'],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'Success'
+        )
+    ]
+)]
     public function index()
     {
         $privileges = Privilege::latest()->get();

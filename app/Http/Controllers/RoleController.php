@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRolePrivilegesRequest;
-
+use OpenApi\Attributes as OA;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    #[OA\Get(
+    path: '/api/role',
+    summary: 'List roles',
+    tags: ['Role'],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: 'Success'
+        )
+    ]
+)]
     public function index()
     {
         $roles = Role::with('privileges')->latest()->get();
